@@ -7,6 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
+import { Auth } from './decorators/auth.decorator';
 import { SignInDto } from './dto/sign-in-dto';
 import { AuthenticationGuard } from './guards/authentication.guard';
 
@@ -24,6 +25,7 @@ export class AuthenticationController {
     return this.authenticationService.signIn(signInDto);
   }
 
+  @Auth('None')
   @Get('test')
   publicRoute() {
     return 'public';

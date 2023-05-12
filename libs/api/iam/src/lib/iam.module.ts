@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '@snipstash/api/users';
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationService } from './authentication/authentication.service';
+import { AccessTokenGuard } from './authentication/guards/access-token.guard';
 import { AuthenticationGuard } from './authentication/guards/authentication.guard';
 import { Argon2Service } from './authentication/hashing/argon2.service';
 import { HashingService } from './authentication/hashing/hashing.service';
@@ -20,6 +21,7 @@ import { HashingService } from './authentication/hashing/hashing.service';
   providers: [
     { provide: APP_GUARD, useClass: AuthenticationGuard },
     { provide: HashingService, useClass: Argon2Service },
+    AccessTokenGuard,
     AuthenticationService,
   ],
   exports: [],
