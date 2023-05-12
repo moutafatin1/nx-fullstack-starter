@@ -1,25 +1,20 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { LoggedInUser } from '../decorators/logged-in-user.decorator';
+import { LoggedInUserType } from '../types/logged-in-user.type';
 import { AuthenticationService } from './authentication.service';
 import { Auth } from './decorators/auth.decorator';
 import { SignInDto } from './dto/sign-in-dto';
-import { AuthenticationGuard } from './guards/authentication.guard';
 
 @Controller('auth')
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
-  @UseGuards(AuthenticationGuard)
   @Get('me')
-  currentUser(@Request() request: Request) {
-    return request['user'];
+  currentUser(@LoggedInUser() user: LoggedInUserType) {
+    return user;
   }
+
+  @Auth('None')
   @Post('signin')
   async signIn(@Body() signInDto: SignInDto) {
     return this.authenticationService.signIn(signInDto);
