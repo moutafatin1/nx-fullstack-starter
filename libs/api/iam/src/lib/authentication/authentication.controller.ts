@@ -97,7 +97,6 @@ export class AuthenticationController {
       request.signedCookies[this.config.REFRESH_TOKEN_KEY]
     );
     response.clearCookie(this.config.REFRESH_TOKEN_KEY, {
-      ...this.refreshTokenCookieOptions,
       expires: new Date(0),
     });
   }
