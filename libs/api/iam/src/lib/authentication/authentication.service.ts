@@ -63,12 +63,15 @@ export class AuthenticationService {
 
   async refreshTokens(refreshToken: string) {
     try {
-      await this.refreshTokenService.validate(refreshToken);
-      const deletedRefreshToken = await this.refreshTokenService.invalidate({
+      const { user } = await this.refreshTokenService.validateAndGetUser(
+        refreshToken
+      );
+
+      await this.refreshTokenService.invalidate({
         token: refreshToken,
       });
 
-      return this.generateTokens(deletedRefreshToken.userId);
+      return this.generateTokens(user.id);
     } catch (error) {
       if (error instanceof InvalidRefreshTokenError) {
         throw new UnauthorizedException(error.message);

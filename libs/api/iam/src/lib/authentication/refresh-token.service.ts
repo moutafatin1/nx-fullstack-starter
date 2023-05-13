@@ -24,7 +24,7 @@ export class RefreshTokenService {
     return refreshToken.token;
   }
 
-  async validate(token: string) {
+  async validateAndGetUser(token: string) {
     const refreshToken = await this.prisma.refreshToken.findUnique({
       where: { token },
     });
@@ -32,6 +32,7 @@ export class RefreshTokenService {
     if (!refreshToken) {
       throw new InvalidRefreshTokenError('Invalid refresh token');
     }
+
     const user = await this.usersService.findById(refreshToken.userId);
 
     if (!user) {
@@ -45,10 +46,15 @@ export class RefreshTokenService {
       throw new InvalidRefreshTokenError('Refresh token expired');
     }
 
-    return true;
+    return { user };
   }
 
   async invalidate({ token, userId }: { token?: string; userId?: string }) {
-    return this.prisma.refreshToken.delete({ where: { token, userId } });
+    const refreshToken = await this.prisma.refreshToken.findUnique({
+      where: { token, userId },
+    });
+    if (refreshToken) {
+      return this.prisma.refreshToken.delete({ where: { token, userId } });
+    }
   }
 }
