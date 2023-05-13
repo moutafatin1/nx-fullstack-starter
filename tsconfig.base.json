@@ -20,7 +20,9 @@
       "@snipstash/api/prisma": ["libs/api/prisma/src/index.ts"],
       "@snipstash/api/security": ["libs/api/security/src/index.ts"],
       "@snipstash/api/users": ["libs/api/users/src/index.ts"],
-      "@snipstash/api/utils": ["libs/shared/api/utils/src/index.ts"]
+      "@snipstash/api/utils": ["libs/api/utils/src/index.ts"],
+      "@snipstash/frontend/utils": ["libs/frontend/utils/src/index.ts"],
+      "@snipstash/shared/ui": ["libs/shared/ui/src/index.ts"]
     },
     "typeRoots": ["node_modules/@types"]
   },
