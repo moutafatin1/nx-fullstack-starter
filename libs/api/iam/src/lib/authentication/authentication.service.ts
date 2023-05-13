@@ -1,9 +1,14 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '@snipstash/api/prisma';
+import { HashingService } from '@snipstash/api/security';
 import { UsersService } from '@snipstash/api/users';
-import { SignInDto } from './dto/sign-in-dto';
-import { HashingService } from './hashing/hashing.service';
+import { SignInDto } from './dto/sign-in.dto';
+import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -38,5 +43,14 @@ export class AuthenticationService {
     );
 
     return { accessToken };
+  }
+
+  async signUp(signUpDto: SignUpDto) {
+    const existingUser = await this.usersService.findByEmail(signUpDto.email);
+    if (existingUser) {
+      throw new ConflictException();
+    }
+
+    return this.usersService.create(signUpDto);
   }
 }

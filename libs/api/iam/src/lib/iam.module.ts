@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
+import { SecurityModule } from '@snipstash/api/security';
 import { UsersModule } from '@snipstash/api/users';
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationService } from './authentication/authentication.service';
 import { AccessTokenGuard } from './authentication/guards/access-token.guard';
 import { AuthenticationGuard } from './authentication/guards/authentication.guard';
-import { Argon2Service } from './authentication/hashing/argon2.service';
-import { HashingService } from './authentication/hashing/hashing.service';
 
 @Module({
   imports: [
@@ -15,12 +14,12 @@ import { HashingService } from './authentication/hashing/hashing.service';
       secret: 'xxxx',
       signOptions: { expiresIn: '1h' },
     }),
+    SecurityModule,
     UsersModule,
   ],
   controllers: [AuthenticationController],
   providers: [
     { provide: APP_GUARD, useClass: AuthenticationGuard },
-    { provide: HashingService, useClass: Argon2Service },
     AccessTokenGuard,
     AuthenticationService,
   ],

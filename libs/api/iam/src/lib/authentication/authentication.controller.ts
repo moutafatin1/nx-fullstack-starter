@@ -3,7 +3,8 @@ import { LoggedInUser } from '../decorators/logged-in-user.decorator';
 import { LoggedInUserType } from '../types/logged-in-user.type';
 import { AuthenticationService } from './authentication.service';
 import { Auth } from './decorators/auth.decorator';
-import { SignInDto } from './dto/sign-in-dto';
+import { SignInDto } from './dto/sign-in.dto';
+import { SignUpDto } from './dto/sign-up.dto';
 
 @Controller('auth')
 export class AuthenticationController {
@@ -21,8 +22,8 @@ export class AuthenticationController {
   }
 
   @Auth('None')
-  @Get('test')
-  publicRoute() {
-    return 'public';
+  @Post('signup')
+  async signUp(@Body() SignUpDto: SignUpDto) {
+    return this.authenticationService.signUp(SignUpDto);
   }
 }
