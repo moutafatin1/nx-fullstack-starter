@@ -9,6 +9,10 @@ import { HashingService } from '@snipstash/api/security';
 import { UsersService } from '@snipstash/api/users';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
+import {
+  InvalidRefreshTokenError,
+  RefreshTokenService,
+} from './refresh-token.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -16,7 +20,8 @@ export class AuthenticationService {
     private readonly prisma: PrismaService,
     private readonly usersService: UsersService,
     private readonly hashingService: HashingService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly refreshTokenService: RefreshTokenService
   ) {}
 
   async signIn(signInDto: SignInDto) {
@@ -41,8 +46,10 @@ export class AuthenticationService {
         expiresIn: '1h',
       }
     );
+    await this.refreshTokenService.invalidate({ userId: user.id });
+    const refreshToken = await this.refreshTokenService.create(user.id);
 
-    return { accessToken };
+    return { accessToken, refreshToken };
   }
 
   async signUp(signUpDto: SignUpDto) {
@@ -52,5 +59,34 @@ export class AuthenticationService {
     }
 
     return this.usersService.create(signUpDto);
+  }
+
+  async refreshTokens(refreshToken: string) {
+    try {
+      await this.refreshTokenService.validate(refreshToken);
+      const deletedRefreshToken = await this.refreshTokenService.invalidate({
+        token: refreshToken,
+      });
+
+      return this.generateTokens(deletedRefreshToken.userId);
+    } catch (error) {
+      if (error instanceof InvalidRefreshTokenError) {
+        throw new UnauthorizedException(error.message);
+      }
+
+      throw new UnauthorizedException();
+    }
+  }
+
+  private async generateTokens(userId: string) {
+    const accessToken = await this.jwtService.signAsync(
+      { sub: userId },
+      {
+        secret: 'secret',
+        expiresIn: '1h',
+      }
+    );
+    const newRefreshToken = await this.refreshTokenService.create(userId);
+    return { accessToken, refreshToken: newRefreshToken };
   }
 }

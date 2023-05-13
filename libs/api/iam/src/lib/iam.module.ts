@@ -7,6 +7,7 @@ import { AuthenticationController } from './authentication/authentication.contro
 import { AuthenticationService } from './authentication/authentication.service';
 import { AccessTokenGuard } from './authentication/guards/access-token.guard';
 import { AuthenticationGuard } from './authentication/guards/authentication.guard';
+import { RefreshTokenService } from './authentication/refresh-token.service';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthenticationGuard } from './authentication/guards/authentication.guar
     { provide: APP_GUARD, useClass: AuthenticationGuard },
     AccessTokenGuard,
     AuthenticationService,
+    RefreshTokenService,
   ],
   exports: [],
 })
