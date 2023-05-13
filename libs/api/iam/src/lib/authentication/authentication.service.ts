@@ -39,17 +39,7 @@ export class AuthenticationService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const accessToken = await this.jwtService.signAsync(
-      { sub: user.id },
-      {
-        secret: 'secret',
-        expiresIn: '1h',
-      }
-    );
-    await this.refreshTokenService.invalidate({ userId: user.id });
-    const refreshToken = await this.refreshTokenService.create(user.id);
-
-    return { accessToken, refreshToken };
+    return this.generateTokens(user.id);
   }
 
   async signUp(signUpDto: SignUpDto) {
@@ -58,7 +48,8 @@ export class AuthenticationService {
       throw new ConflictException();
     }
 
-    return this.usersService.create(signUpDto);
+    const user = await this.usersService.create(signUpDto);
+    return this.generateTokens(user.id);
   }
 
   async refreshTokens(refreshToken: string) {
@@ -66,10 +57,6 @@ export class AuthenticationService {
       const { user } = await this.refreshTokenService.validateAndGetUser(
         refreshToken
       );
-
-      await this.refreshTokenService.invalidate({
-        token: refreshToken,
-      });
 
       return this.generateTokens(user.id);
     } catch (error) {
@@ -82,13 +69,7 @@ export class AuthenticationService {
   }
 
   private async generateTokens(userId: string) {
-    const accessToken = await this.jwtService.signAsync(
-      { sub: userId },
-      {
-        secret: 'secret',
-        expiresIn: '1h',
-      }
-    );
+    const accessToken = await this.jwtService.signAsync({ sub: userId });
     const newRefreshToken = await this.refreshTokenService.create(userId);
     return { accessToken, refreshToken: newRefreshToken };
   }

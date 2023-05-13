@@ -19,7 +19,8 @@
       "@snipstash/api/iam": ["libs/api/iam/src/index.ts"],
       "@snipstash/api/prisma": ["libs/api/prisma/src/index.ts"],
       "@snipstash/api/security": ["libs/api/security/src/index.ts"],
-      "@snipstash/api/users": ["libs/api/users/src/index.ts"]
+      "@snipstash/api/users": ["libs/api/users/src/index.ts"],
+      "@snipstash/api/utils": ["libs/shared/api/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
