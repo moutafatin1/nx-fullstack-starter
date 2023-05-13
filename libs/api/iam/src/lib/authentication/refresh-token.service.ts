@@ -37,7 +37,10 @@ export class RefreshTokenService {
     return refreshToken.token;
   }
 
-  async validateAndGetUser(token: string) {
+  async validateAndGetUser(token: string | undefined) {
+    if (!token) {
+      throw new InvalidRefreshTokenError('Refresh token not provided');
+    }
     const refreshToken = await this.prisma.refreshToken.findUnique({
       where: { token },
     });

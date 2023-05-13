@@ -68,6 +68,21 @@ export class AuthenticationService {
     }
   }
 
+  async signOut(refreshToken: string) {
+    try {
+      const { user } = await this.refreshTokenService.validateAndGetUser(
+        refreshToken
+      );
+
+      await this.refreshTokenService.invalidate({ userId: user.id });
+    } catch (error) {
+      if (error instanceof InvalidRefreshTokenError) {
+        throw new UnauthorizedException(error.message);
+      }
+      throw new UnauthorizedException();
+    }
+  }
+
   private async generateTokens(userId: string) {
     const [accessToken, newRefreshToken] = await Promise.all([
       await this.jwtService.signAsync({ sub: userId }),
