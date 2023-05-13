@@ -21,7 +21,8 @@
       "@snipstash/api/security": ["libs/api/security/src/index.ts"],
       "@snipstash/api/users": ["libs/api/users/src/index.ts"],
       "@snipstash/api/utils": ["libs/shared/api/utils/src/index.ts"]
-    }
+    },
+    "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["node_modules", "tmp"]
 }

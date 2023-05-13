@@ -17,7 +17,9 @@ export class RefreshTokenService {
 
   async create(userId: string) {
     const token = crypto.randomBytes(64).toString('hex');
-    const expiresAt = this.config.REFRESH_TOKEN_EXPIRES;
+    const expiresAt = new Date(
+      Date.now() + parseInt(this.config.REFRESH_TOKEN_EXPIRES) * 30
+    );
     const refreshToken = await this.prisma.refreshToken.upsert({
       where: {
         userId,
