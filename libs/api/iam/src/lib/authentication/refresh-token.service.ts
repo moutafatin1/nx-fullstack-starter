@@ -54,7 +54,7 @@ export class RefreshTokenService {
       where: { token, userId },
     });
     if (refreshToken) {
-      return this.prisma.refreshToken.delete({ where: { token, userId } });
+      await this.prisma.refreshToken.delete({ where: { token, userId } });
     }
   }
 }

@@ -30,10 +30,6 @@ export class AuthenticationController {
   @Auth('None')
   @Post('refresh-tokens')
   async refreshTokens(@Body() { refreshToken }: { refreshToken: string }) {
-    console.log(
-      '🚀 ~ file: authentication.controller.ts:33 ~ AuthenticationController ~ refreshTokens ~ refreshToken:',
-      refreshToken
-    );
     return this.authenticationService.refreshTokens(refreshToken);
   }
 }
