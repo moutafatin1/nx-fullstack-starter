@@ -11,10 +11,10 @@ import {
   Res,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { CurrentActiveUser, IAuthResponse } from '@snipstash/types';
 import { CookieOptions, Request, Response } from 'express';
 import { jwtConfig } from '../config/jwt.config';
 import { LoggedInUser } from '../decorators/logged-in-user.decorator';
-import { LoggedInUserType } from '../types/logged-in-user.type';
 import { AuthenticationService } from './authentication.service';
 import { Auth } from './decorators/auth.decorator';
 import { SignInDto } from './dto/sign-in.dto';
@@ -39,7 +39,7 @@ export class AuthenticationController {
   ) {}
 
   @Get('me')
-  currentUser(@LoggedInUser() user: LoggedInUserType) {
+  currentUser(@LoggedInUser() user: CurrentActiveUser) {
     return user;
   }
 
@@ -49,7 +49,7 @@ export class AuthenticationController {
   async signIn(
     @Body() signInDto: SignInDto,
     @Res({ passthrough: true }) response: Response
-  ) {
+  ): Promise<IAuthResponse> {
     const { refreshToken, accessToken, user } =
       await this.authenticationService.signIn(signInDto);
 
@@ -64,8 +64,19 @@ export class AuthenticationController {
 
   @Auth('None')
   @Post('signup')
-  async signUp(@Body() SignUpDto: SignUpDto) {
-    return this.authenticationService.signUp(SignUpDto);
+  async signUp(
+    @Body() SignUpDto: SignUpDto,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    const { accessToken, refreshToken, user } =
+      await this.authenticationService.signUp(SignUpDto);
+    response.cookie(
+      this.config.REFRESH_TOKEN_KEY,
+      refreshToken,
+      this.refreshTokenCookieOptions
+    );
+
+    return { accessToken, user };
   }
 
   @Auth('None')

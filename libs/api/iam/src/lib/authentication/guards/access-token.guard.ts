@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { CurrentActiveUser } from '@snipstash/types';
 import { Request } from 'express';
 import { jwtConfig } from '../../config/jwt.config';
 @Injectable()
@@ -24,11 +25,18 @@ export class AccessTokenGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const { sub, iat, exp, ...payload } = await this.jwtService.verifyAsync<
+        Omit<CurrentActiveUser, 'id'> & {
+          sub: string;
+          iat: number;
+          exp: number;
+        }
+      >(token, {
         secret: this.config.JWT_SECRET,
       });
       request['user'] = {
-        id: payload.sub,
+        id: sub,
+        ...payload,
       };
     } catch (error) {
       throw new UnauthorizedException();

@@ -1,13 +1,19 @@
-export interface SignInDtoType {
+export interface ISignInDto {
   email: string;
   password: string;
 }
 
-export interface AuthResponseType {
-  user: UserType;
+export interface ISignUpDto {
+  email: string;
+  password: string;
+}
+
+export interface IAuthResponse {
+  user: CurrentActiveUser;
   accessToken: string;
 }
 
-export interface UserType {
+export type CurrentActiveUser = {
   id: string;
-}
+  email: string;
+};

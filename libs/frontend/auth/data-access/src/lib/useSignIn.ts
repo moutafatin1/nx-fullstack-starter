@@ -1,11 +1,11 @@
-import { AuthResponseType, SignInDtoType } from '@snipstash/types';
+import { IAuthResponse, ISignInDto } from '@snipstash/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { authAxios } from './axios';
 
-const signInFn = (data: SignInDtoType) => {
+const signInFn = (data: ISignInDto) => {
   return authAxios
-    .post<AuthResponseType>('/auth/signin', data, { withCredentials: true })
+    .post<IAuthResponse>('/auth/signin', data, { withCredentials: true })
     .then((res) => res.data);
 };
 

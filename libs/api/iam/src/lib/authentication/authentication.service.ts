@@ -38,8 +38,9 @@ export class AuthenticationService {
     if (!isValidPassword) {
       throw new UnauthorizedException('Invalid credentials');
     }
-
-    return { user, ...(await this.generateTokens(user.id)) };
+    const tokens = await this.generateTokens(user.id, { email: user.email });
+    const { passwordHash, ...userWithoutPassword } = user;
+    return { user: userWithoutPassword, ...tokens };
   }
 
   async signUp(signUpDto: SignUpDto) {
@@ -48,8 +49,12 @@ export class AuthenticationService {
       throw new ConflictException();
     }
 
-    const user = await this.usersService.create(signUpDto);
-    return this.generateTokens(user.id);
+    const { passwordHash, ...userWithoutPassword } =
+      await this.usersService.create(signUpDto);
+    const tokens = await this.generateTokens(userWithoutPassword.id, {
+      email: userWithoutPassword.email,
+    });
+    return { user: userWithoutPassword, ...tokens };
   }
 
   async refreshTokens(refreshToken: string) {
@@ -83,9 +88,12 @@ export class AuthenticationService {
     }
   }
 
-  private async generateTokens(userId: string) {
+  private async generateTokens<T extends Record<string, unknown>>(
+    userId: string,
+    payload?: T
+  ) {
     const [accessToken, newRefreshToken] = await Promise.all([
-      await this.jwtService.signAsync({ sub: userId }),
+      await this.jwtService.signAsync({ sub: userId, ...payload }),
       await this.refreshTokenService.create(userId),
     ]);
     return { accessToken, refreshToken: newRefreshToken };
