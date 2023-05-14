@@ -8,6 +8,7 @@
   },
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^3.1.0",
     "@nestjs/common": "^9.1.1",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.1.1",
@@ -15,6 +16,7 @@
     "@nestjs/platform-express": "^9.1.1",
     "@prisma/client": "^4.14.0",
     "@swc/helpers": "~0.5.0",
+    "@tanstack/react-query": "^4.29.7",
     "argon2": "^0.30.3",
     "axios": "^1.0.0",
     "class-transformer": "^0.5.1",
@@ -26,11 +28,13 @@
     "lucide-react": "^0.216.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-router-dom": "6.8.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tailwind-merge": "^1.12.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@nestjs/schematics": "^9.1.0",
@@ -89,6 +93,7 @@
     "vite": "^4.3.4",
     "vite-plugin-dts": "~1.7.1",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-mkcert": "^1.15.0",
     "vite-tsconfig-paths": "^4.0.2",
     "vitest": "^0.31.0"
   }

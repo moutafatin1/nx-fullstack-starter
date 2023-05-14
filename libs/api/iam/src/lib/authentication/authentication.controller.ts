@@ -50,7 +50,7 @@ export class AuthenticationController {
     @Body() signInDto: SignInDto,
     @Res({ passthrough: true }) response: Response
   ) {
-    const { refreshToken, accessToken } =
+    const { refreshToken, accessToken, user } =
       await this.authenticationService.signIn(signInDto);
 
     response.cookie(
@@ -59,7 +59,7 @@ export class AuthenticationController {
       this.refreshTokenCookieOptions
     );
 
-    return { accessToken };
+    return { accessToken, user };
   }
 
   @Auth('None')

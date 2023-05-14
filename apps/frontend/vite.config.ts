@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import mkcert from "vite-plugin-mkcert";
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
@@ -9,6 +10,7 @@ export default defineConfig({
   server: {
     port: 4200,
     host: 'localhost',
+    https: true,
   },
 
   preview: {
@@ -18,6 +20,7 @@ export default defineConfig({
 
   plugins: [
     react(),
+    mkcert(),
     viteTsConfigPaths({
       root: '../../',
     }),

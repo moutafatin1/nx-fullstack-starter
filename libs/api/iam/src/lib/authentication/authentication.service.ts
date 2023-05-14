@@ -39,7 +39,7 @@ export class AuthenticationService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return this.generateTokens(user.id);
+    return { user, ...(await this.generateTokens(user.id)) };
   }
 
   async signUp(signUpDto: SignUpDto) {
