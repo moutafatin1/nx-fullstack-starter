@@ -21,7 +21,12 @@
       "@snipstash/api/security": ["libs/api/security/src/index.ts"],
       "@snipstash/api/users": ["libs/api/users/src/index.ts"],
       "@snipstash/api/utils": ["libs/api/utils/src/index.ts"],
-      "@snipstash/frontend/auth": ["libs/frontend/auth/src/index.ts"],
+      "@snipstash/frontend/auth/data-access": [
+        "libs/frontend/auth/data-access/src/index.ts"
+      ],
+      "@snipstash/frontend/auth/feature": [
+        "libs/frontend/auth/feature/src/index.ts"
+      ],
       "@snipstash/frontend/utils": ["libs/frontend/utils/src/index.ts"],
       "@snipstash/shared/ui": ["libs/shared/ui/src/index.ts"],
       "@snipstash/types": ["libs/shared/types/src/index.ts"]

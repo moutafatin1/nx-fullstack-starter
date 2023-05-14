@@ -26,7 +26,7 @@ authAxios.interceptors.request.use((request) => {
   const accessToken = localStorage.getItem('nx_accessToken');
   if (accessToken) {
     request.headers = request.headers ?? {};
-    request.headers.Authorization = `Bearer ${accessToken}`;
+    request.headers['Authorization'] = `Bearer ${accessToken}`;
   }
 
   return request;

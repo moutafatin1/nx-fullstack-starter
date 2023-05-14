@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSignIn } from '@snipstash/frontend/auth/data-access';
 import { Button, InputField } from '@snipstash/shared/ui';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useSignIn } from '../hooks/useSignIn';
 
 const signInSchema = z.object({
   email: z.string().email(),

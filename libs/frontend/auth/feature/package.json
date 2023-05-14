@@ -1,5 +1,5 @@
 {
-  "name": "@snipstash/frontend/auth",
+  "name": "@snipstash/frontend/auth/feature",
   "version": "0.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",

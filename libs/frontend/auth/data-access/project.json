@@ -1,0 +1,34 @@
+{
+  "name": "frontend-auth-data-access",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/frontend/auth/data-access/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/frontend/auth/data-access",
+        "main": "libs/frontend/auth/data-access/src/index.ts",
+        "tsConfig": "libs/frontend/auth/data-access/tsconfig.lib.json",
+        "assets": ["libs/frontend/auth/data-access/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/auth/data-access/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["coverage/libs/frontend/auth/data-access"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../../../coverage/libs/frontend/auth/data-access"
+      }
+    }
+  },
+  "tags": []
+}

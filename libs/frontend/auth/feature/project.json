@@ -1,7 +1,7 @@
 {
-  "name": "frontend-auth",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/frontend/auth/src",
+  "name": "frontend-auth-feature",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/frontend/auth/feature/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/frontend/auth/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/frontend/auth/feature/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "build": {
@@ -17,7 +17,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/frontend/auth"
+        "outputPath": "dist/libs/frontend/auth/feature"
       },
       "configurations": {
         "development": {
@@ -30,10 +30,10 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["coverage/libs/frontend/auth"],
+      "outputs": ["coverage/libs/frontend/auth/feature"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../../coverage/libs/frontend/auth"
+        "reportsDirectory": "../../../../coverage/libs/frontend/auth/feature"
       }
     }
   }

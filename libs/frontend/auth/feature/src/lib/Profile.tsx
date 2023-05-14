@@ -1,7 +1,9 @@
+import {
+  useCurrentUser,
+  useSignOut,
+} from '@snipstash/frontend/auth/data-access';
 import { Button } from '@snipstash/shared/ui';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useCurrentUser } from '../hooks/useCurrentUser';
-import { useSignOut } from '../hooks/useSignOut';
 
 export const ProfilePage = () => {
   const user = useCurrentUser();

@@ -1,6 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import { ProfilePage, Protected, SignInPage } from '@snipstash/frontend/auth';
+import {
+  ProfilePage,
+  Protected,
+  SignInPage,
+} from '@snipstash/frontend/auth/feature';
 import { Route, Routes } from 'react-router-dom';
 
 export function App() {
