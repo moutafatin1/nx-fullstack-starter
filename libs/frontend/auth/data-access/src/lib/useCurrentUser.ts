@@ -1,9 +1,9 @@
-import { UserType } from '@snipstash/types';
+import { CurrentActiveUser } from '@snipstash/types';
 import { useQuery } from '@tanstack/react-query';
 import { authAxios } from './axios';
 
 const currentUserFn = () =>
-  authAxios.get<UserType>('/auth/me').then((res) => res.data);
+  authAxios.get<CurrentActiveUser>('/auth/me').then((res) => res.data);
 
 export const useCurrentUser = () => {
   return useQuery({

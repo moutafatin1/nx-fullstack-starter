@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSignIn } from '@snipstash/frontend/auth/data-access';
+import { useSignUp } from '@snipstash/frontend/auth/data-access';
 import { Button, InputField } from '@snipstash/shared/ui';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ const signInSchema = z.object({
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
-export const SignInPage = () => {
+export const SignUpPage = () => {
   const {
     handleSubmit,
     register,
@@ -20,7 +20,7 @@ export const SignInPage = () => {
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
   });
-  const signInMutation = useSignIn();
+  const signInMutation = useSignUp();
   const signIn = handleSubmit((data) => {
     signInMutation.mutate(data);
   });
@@ -28,7 +28,7 @@ export const SignInPage = () => {
     <main className="flex h-screen  items-center justify-center bg-slate-100 px-4">
       <div className="mb-32 rounded-lg bg-white px-10">
         <h1 className="text-foreground mt-12 text-center text-5xl font-bold">
-          Welcome Back
+          Create an account
         </h1>
         <form
           onSubmit={signIn}
@@ -52,14 +52,14 @@ export const SignInPage = () => {
           {errors.password && (
             <p className="text-sm text-red-500">{errors.password.message}</p>
           )}
-          <Button className="mt-4 rounded-full">Sign In</Button>
+          <Button className="mt-4 rounded-full">Sign Up</Button>
           <p className="mt-12 mb-4 text-center text-gray-500">
-            New here?{' '}
+            Already have an account?{' '}
             <Link
-              to="/signup"
+              to="/signin"
               className="font-medium transition-colors hover:text-blue-500"
             >
-              Sign Up
+              Sign In
             </Link>
           </p>
         </form>

@@ -10,7 +10,7 @@ export const ProfilePage = () => {
   const signOutMutation = useSignOut();
   return (
     <div>
-      Hello , {user.data?.id} -{' '}
+      Hello , {user.data?.email} -{' '}
       <Button
         variant="destructive"
         onClick={() => {

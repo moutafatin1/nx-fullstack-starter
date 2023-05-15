@@ -1,5 +1,5 @@
-import { Loader2 } from 'lucide-react';
 import { cn } from '@snipstash/frontend/utils';
+import { Loader2 } from 'lucide-react';
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof variants;
@@ -16,8 +16,8 @@ const variants = {
 
 const sizes = {
   default: 'h-10 py-2 px-4',
-  sm: 'h-9 px-3 rounded-md',
-  lg: 'h-11 px-8 rounded-md',
+  sm: 'h-9 px-3',
+  lg: 'h-11 px-8',
 };
 
 export const Button = ({
